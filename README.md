@@ -1,6 +1,6 @@
 - 👋 Hi, I’m @smh-hosseiny
 - 👀 I’m interested in Artificial Intelligence and Control enginnering
-- 💞️ I’m looking to collaborate on Machine learning projects.
+- 💞️ I’m eager to collaborate on Machine learning projects.
 - 📫 My email address: hosseiny290@gmail.com
 
 <!---
