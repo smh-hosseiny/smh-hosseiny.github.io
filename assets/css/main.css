@@ -162,6 +162,9 @@ input, select, textarea {
 		font-size: 1.25em;
 		line-height: 1.5em;
 	}
+	h4:hover {
+		color: #ffffff;
+	}
 
 	h5 {
 		font-size: 0.9em;
@@ -2729,6 +2732,11 @@ input, select, textarea {
 				color: #ffffff;
 			}
 
+			
+			#header h4:hover {
+				color: #de1e1e;
+			}
+
 		#header header p {
 			color: #86878f;
 		}
@@ -3141,8 +3149,10 @@ input, select, textarea {
 			}
 
 			h4 {
-				font-size: 1em;
+				font-size:
+				 1em;
 			}
+
 
 		/* Image */
 
