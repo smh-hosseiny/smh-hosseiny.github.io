@@ -1,0 +1,151 @@
+
+
+\begin{document}
+
+% non-numbered pages
+\pagestyle{empty}
+
+\begin{tabularx}{\linewidth}{@{} C @{}}
+\LARGE{\bf{Seyed Hosseini}} \\[3pt]
+\small{
+\href{https://github.com/smh-hosseiny}{\raisebox{-0.05\height}\faGithub\ Github} \ $|$ \ 
+\href{https://linkedin.com/in/s-m-hossein-hosseiny}{\raisebox{-0.05\height}\faLinkedin\ LinkedIn} \ $|$ \ 
+\href{mailto:seyed.hsseini@gmail.com}{\raisebox{-0.05\height}\faEnvelope \ seyed.hsseini@gmail.com} \ $|$ \ 
+\href{https://smh-hosseiny.github.io}
+{\raisebox{-0.05\height}\faGlobe\ Portfolio} \ $|$ \ 
+\href{tel:+4167315996}{\raisebox{-0.05\height}\faMobile \ +1 416-731-5996}
+}
+\end{tabularx}
+
+% \section{Summary}
+% \noindent
+% \textbf{Machine Learning \& Computer Vision Researcher} with expertise in \textbf{3D scene understanding and deep learning}. Strong track record of \textbf{published research}, passionate for bridging the gap between \textbf{academic research and real-world AI applications}.
+
+
+
+% Experience
+\section{Work Experience}
+
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+    % \textbf{Graduate Research Assistant},
+    \textbf{Computer Vision Researcher},
+    \small{\textit{Elder Lab, York University}} & \hfill {\textbf{2024--Present,  \small Toronto, ON}} \\[3.75pt]
+    \multicolumn{2}{@{}X@{}}{
+    \raggedright{Conducting research on integrating foundational computer vision techniques into 3D perception applications. \hfill {}} \\[3.75pt]
+    \begin{minipage}[t]{\linewidth}
+    \begin{itemize}
+        \item Developing a novel explainable 3D scene modeling pipeline by leveraging our semantics-based zero-shot metric depth estimation method.
+        \item Invited speaker at CVPR 2024 \href{https://jspenmar.github.io/MDEC/}{Monocular Depth Estimation Challenge workshop}, presenting a geometric depth estimation approach.
+    \end{itemize}
+    \end{minipage}
+}\end{tabularx}
+\\[10pt]
+
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+    \textbf{Research Assistant}, \small{\textit{NBIC Lab, University of Tehran}} & \hfill {\textbf{2021--2022,  \small Tehran, Iran}} \\[3.75pt]
+    \multicolumn{2}{@{}X@{}}{
+    \raggedright{Collaborated with experts from the National Brain Mapping Lab to apply State-of-the-Art machine learning models to medical image analysis. \hfill {}} \\[3.75pt]
+    \begin{minipage}[t]{\linewidth}
+    \begin{itemize} 
+         \item Engineered a CNN-Transformer model for brain fiber orientation estimation from MRI data, reducing angular error to under 10°.
+        \item Applied the model for brain white matter reconstruction, improving the accuracy and efficiency of 3D fiber modeling in dMRI analysis.
+    \end{itemize}
+    \end{minipage}
+}
+\end{tabularx}
+\\[10pt]
+
+% \href{https://github.com/CentML/centml-python-client}{\faLink}
+
+\begin{tabularx}{\textwidth}{ @{}l r@{} }
+    \textbf{Engineering Intern}, \small{\textit{DAHA tech}}  & \hfill {\textbf{Summer 2019,  \small Tehran, Iran}} \\[3.75pt]
+    \multicolumn{2}{@{}X@{}}{
+     \raggedright{Contributed to a startup project developing an indoor positioning system for tracking personnel and objects. \hfill {}} \\[3.75pt]
+    \begin{minipage}[t]{\linewidth}
+        \begin{itemize}
+             \item Designed and implemented a clustering-based wireless indoor positioning system, achieving sub-meter accuracy in real-world environments.
+        \end{itemize}
+    \end{minipage}
+    }
+    
+\end{tabularx}
+\vspace{0.35em}
+
+\section{Skills}
+\begin{itemize}  
+    \item \textbf{Programming:} Python, C, C++, MATLAB, SQL, Bash  
+    \item \textbf{Frameworks and Libraries:} TensorFlow, Keras, PyTorch, OpenCV, PIL  
+    \item \textbf{Development Tools:} Git, Docker, AWS  
+\end{itemize}
+% % Skills
+% \section{Skills}
+% \begin{tabularx}{\linewidth}{@{}l X@{}}
+% Programming: &  \normalsize{Python, C, C++, MATLAB, SQL, Bash}\\
+% Frameworks \& Tools:  &  \normalsize{TensorFlow/Keras, PyTorch, OpenCV, PIL, Git, Docker, AWS}\\
+% \end{tabularx}
+\vspace{0.35em}
+
+%Projects
+\section{Projects}
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+ \href{https://github.com/smh-hosseiny/MetricDepthNet}{\textbf{Metric Depth Estimation}} \\
+ \begin{minipage}[t]{\linewidth}
+    \begin{itemize}[]
+        \item Developed a zero-shot metric depth estimation model by integrating state-of-the-art architectures. Trained on multiple datasets, achieving robust generalization across diverse environments.
+    \end{itemize}
+\end{minipage}
+\end{tabularx} 
+
+% \begin{tabularx}{\linewidth}{ @{}l r@{} }
+%  \href{https://github.com/smh-hosseiny/SOR_3D_Reconstruction}{\textbf{3D Reconstruction from a Single View of Rotationally Symmetric Objects}} \\
+%  \begin{minipage}[t]{\linewidth}
+%     \begin{itemize}
+%         \item Developed an algorithm to reconstruct axially symmetric objects from single images.  Achieved an angular error of only 7 degrees in determining the main 3D axis.
+%     \end{itemize}
+% \end{minipage}
+% \end{tabularx} 
+%  \\[2pt]
+
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+ \href{https://github.com/smh-hosseiny/FSRE_reproduction}{\textbf{Semantic-based Image Representation Enhancement}} \\
+ \begin{minipage}[t]{\linewidth}
+    \begin{itemize}[]
+        \item Improved the model introduced in \href{https://arxiv.org/abs/2108.08829}{"Fine-grained Semantics-aware Representation Enhancement"} paper for dense prediction tasks on the KITTI dataset.
+    \end{itemize}
+\end{minipage}
+\end{tabularx} 
+ \\
+
+\begin{tabularx}{\linewidth}{ @{}l r@{} }
+\href{https://github.com/smh-hosseiny/CTtrack}{\textbf{Brain Fiber 3D Reconstruction}} \\
+ \begin{minipage}[t]{\linewidth}
+    \begin{itemize}[]
+        \item Engineered a deep network to estimate 3D orientations of brain fibers from MRI data.  Performed deterministic fiber tracking using the estimated orientations.
+    \end{itemize}
+\end{minipage}
+\end{tabularx} 
+\vspace{0.35em}
+
+% Education
+\section{Education}
+\textbf{York University}, Master of Applied Science,  Electrical and Computer Eng. GPA: 4.0 / 4.0 \hfill{\textbf{2022--2024}}
+\begin{itemize}[leftmargin=5mm,label={}]
+    \item Thesis: \textit{"Metric Depth Estimation via Semantic Segmentation and Ground Geometry"} \hfill{}
+\end{itemize} 
+
+\textbf{University of Tehran}, Bachelor of Science,  Electrical Eng. GPA: 3.6 / 4.0 \hfill{\textbf{2016--2021}}
+\begin{itemize}[leftmargin=5mm,label={}]
+    \item Thesis: \textit{"Single-view 3D Reconstruction of Surface of Revolution"}  \hfill{}
+\end{itemize}
+\vspace{0.35em}
+
+
+\section{Publications}
+\vspace{5pt}
+\begin{enumerate}[leftmargin=5mm]
+    \item Spencer \textit{et al.}, "The Third Monocular Depth Estimation Challenge," \textit{Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition}, 2024. \href{https://openaccess.thecvf.com/content/CVPR2024W/MDEC/html/Spencer_The_Third_Monocular_Depth_Estimation_Challenge_CVPRW_2024_paper.html}{[Link]}
+    \item \textbf{Hosseini} \textit{et al.}, "CTtrack: A CNN+Transformer-based Framework for Fiber Orientation Estimation \& Tractography," \textit{Neuroscience Informatics}, 2022. \href{https://www.sciencedirect.com/science/article/pii/S2772528622000619}{[Link]}
+    \item \textbf{Hosseini} \textit{et al.}, "Single-view 3D Reconstruction of Surface of Revolution," \textit{The Visual Computer}, Submitted, 2023. \href{https://github.com/smh-hosseiny/SOR_3D_Reconstruction}{[Link]}
+\end{enumerate}
+
+
