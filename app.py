@@ -76,6 +76,10 @@ def load_cv_content():
 
 def ask_mistral(question, cv_text):
     """Send a prompt to Mistral AI and return the response."""
+    if not API_KEY:
+        logger.error("Missing Mistral API key")
+        return "Configuration error: API key not found. Please contact the administrator."
+        
     headers = {
         "Authorization": f"Bearer {API_KEY}",
         "Content-Type": "application/json",
@@ -96,15 +100,17 @@ def ask_mistral(question, cv_text):
     
     try:
         response = requests.post(API_URL, json=data, headers=headers, timeout=10)
-        response.raise_for_status()
+        response.raise_for_status()  # This will raise an HTTPError for 4XX/5XX responses
         
         return response.json().get("choices", [{}])[0].get("message", {}).get("content", "No response.")
     except requests.exceptions.Timeout:
         logger.error("Request to Mistral API timed out")
         return "Sorry, the request timed out. Please try again."
     except requests.exceptions.HTTPError as e:
-        logger.error(f"HTTP Error: {e.response.status_code} - {e.response.text}")
-        return f"Error: {response.status_code}, {response.text}"
+        logger.error(f"Mistral API error: {e.response.status_code} - {e.response.text}")
+        if e.response.status_code == 401:
+            return "Authentication error with AI service. Please contact the administrator."
+        return f"Error communicating with AI service: {e.response.status_code}"
     except requests.exceptions.RequestException as e:
         logger.error(f"Request error: {str(e)}")
         return f"Request error: {e}"
