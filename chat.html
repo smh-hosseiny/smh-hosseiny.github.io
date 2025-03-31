@@ -58,6 +58,8 @@
             background-color: #f1f1f1;
             border-radius: 5px;
             margin-right: 20%;
+            margin-bottom: 10px;
+            color: #666;
         }
 
         .typing-indicator span {
@@ -74,6 +76,55 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
         }
+
+        .error-message {
+            color: #dc3545;
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .send-button-disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        @media screen and (max-width: 480px) {
+            .chat-container {
+                padding: 10px;
+                margin: 10px;
+            }
+            
+            .user-message {
+                margin-left: 10%;
+            }
+            
+            .bot-message {
+                margin-right: 10%;
+            }
+            
+            .chat-input {
+                flex-direction: column;
+            }
+            
+            .chat-input button {
+                margin-top: 10px;
+                width: 100%;
+            }
+        }
+
+        .char-counter {
+            font-size: 0.8em;
+            color: #666;
+            align-self: center;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body class="is-preload">
@@ -86,8 +137,8 @@
                 <div class="container">
                     <h2>Chat with My CV</h2>
                     
-                    <div class="chat-container">
-                        <div class="chat-messages" id="chat-messages">
+                    <div class="chat-container" role="main">
+                        <div class="chat-messages" id="chat-messages" role="log" aria-live="polite">
                             <div class="message bot-message">
                                 Hi there! I'm Seyed's CV assistant. Ask me anything about his education, research, publications, or skills!
                             </div>
@@ -96,8 +147,10 @@
                             </div>
                         </div>
                         <div class="chat-input">
-                            <input type="text" id="message-input" placeholder="Type your message..." autocomplete="off">
-                            <button id="send-button">Send</button>
+                            <input type="text" id="message-input" placeholder="Type your message..." 
+                                   autocomplete="off" aria-label="Type your message">
+                            <span id="char-counter" class="char-counter">0/500</span>
+                            <button id="send-button" aria-label="Send message">Send</button>
                         </div>
                     </div>
                     
@@ -126,8 +179,7 @@
         const sendButton = document.getElementById('send-button');
         const typingIndicator = document.getElementById('typing-indicator');
         
-        // Update this URL to your actual Render API endpoint
-        const API_URL = 'https://your-cv-chat-api.onrender.com/api/chat';
+        const API_URL = 'https://smh-hosseiny-github-io.onrender.com/api/chat';
         
         // Rest of the chat JavaScript (from the previous template)
         function addMessage(message, isUser) {
@@ -149,9 +201,22 @@
             typingIndicator.style.display = 'none';
         }
         
+        function validateInput(message) {
+            if (message.length > 500) {
+                addMessage('Message is too long. Please keep it under 500 characters.', false);
+                return false;
+            }
+            return true;
+        }
+        
         async function sendMessage() {
             const message = messageInput.value.trim();
-            if (message) {
+            if (message && validateInput(message)) {
+                // Disable input and button while sending
+                messageInput.disabled = true;
+                sendButton.disabled = true;
+                sendButton.classList.add('send-button-disabled');
+                
                 addMessage(message, true);
                 messageInput.value = '';
                 
@@ -166,14 +231,26 @@
                         body: JSON.stringify({ message })
                     });
                     
-                    const data = await response.json();
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
                     
+                    const data = await response.json();
                     hideTypingIndicator();
-                    addMessage(data.response, false);
+                    if (!data.response && !data.error) {
+                        throw new Error('Empty response from server');
+                    }
+                    addMessage(data.error || data.response, false);
                 } catch (error) {
                     console.error('Error:', error);
                     hideTypingIndicator();
                     addMessage('Sorry, something went wrong. Please try again later.', false);
+                } finally {
+                    // Re-enable input and button
+                    messageInput.disabled = false;
+                    sendButton.disabled = false;
+                    sendButton.classList.remove('send-button-disabled');
+                    messageInput.focus();
                 }
             }
         }
@@ -184,6 +261,11 @@
             if (e.key === 'Enter') {
                 sendMessage();
             }
+        });
+
+        messageInput.addEventListener('input', () => {
+            const count = messageInput.value.length;
+            document.getElementById('char-counter').textContent = `${count}/500`;
         });
     </script>
 </body>
