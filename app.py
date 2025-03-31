@@ -4,6 +4,7 @@ import logging
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_cors import CORS
 from datetime import datetime
+from functools import wraps
 
 # Configure logging
 logging.basicConfig(
@@ -18,10 +19,18 @@ CORS(app)  # This enables CORS for all routes
 API_KEY = os.getenv("MISTRAL_API_KEY")
 
 if not API_KEY:
-    logger.error("MISTRAL_API_KEY environment variable is not set")
-    raise ValueError("MISTRAL_API_KEY is not set. Please configure it in the environment variables.")
+    logger.error("MISTRAL_API_KEY is not set or is empty")
+else:
+    logger.info(f"MISTRAL_API_KEY is set, length: {len(API_KEY)} characters")
 
 API_URL = "https://api.mistral.ai/v1/chat/completions"
+
+# Add near other constants
+MAX_QUESTION_LENGTH = 500
+MAX_RESPONSE_LENGTH = 1000
+MODEL_NAME = "mistral-small-latest"
+MODEL_TEMPERATURE = 0.4
+MODEL_MAX_TOKENS = 500
 
 # Add near the top with other constants
 SYSTEM_PROMPT = """You are a helpful assistant for a CV chatbot. 
@@ -36,7 +45,7 @@ SYSTEM_PROMPT = """You are a helpful assistant for a CV chatbot.
 cv_content = None
 
 def load_cv_content():
-    """Load CV content from a file with caching"""
+    """Load CV content with caching"""
     global cv_content
     if cv_content is not None:
         return cv_content
@@ -78,7 +87,7 @@ def ask_mistral(question, cv_text):
     """Send a prompt to Mistral AI and return the response."""
     if not API_KEY:
         logger.error("Missing Mistral API key")
-        return "Configuration error: API key not found. Please contact the administrator."
+        return "I'm currently unable to process requests. Please try again later."
         
     headers = {
         "Authorization": f"Bearer {API_KEY}",
@@ -109,8 +118,10 @@ def ask_mistral(question, cv_text):
     except requests.exceptions.HTTPError as e:
         logger.error(f"Mistral API error: {e.response.status_code} - {e.response.text}")
         if e.response.status_code == 401:
-            return "Authentication error with AI service. Please contact the administrator."
-        return f"Error communicating with AI service: {e.response.status_code}"
+            return "I'm currently experiencing technical difficulties. Please try again later."
+        elif e.response.status_code == 429:
+            return "I'm a bit overwhelmed right now. Please try again in a moment."
+        return "I'm having trouble processing your request. Please try again later."
     except requests.exceptions.RequestException as e:
         logger.error(f"Request error: {str(e)}")
         return f"Request error: {e}"
@@ -126,8 +137,19 @@ def validate_mistral_response(response):
         return False
     return True
 
+def security_headers(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        response = f(*args, **kwargs)
+        response.headers['X-Content-Type-Options'] = 'nosniff'
+        response.headers['X-Frame-Options'] = 'DENY'
+        response.headers['X-XSS-Protection'] = '1; mode=block'
+        return response
+    return decorated_function
+
 @app.route('/')
 def home():
+    """Redirect to chat interface"""
     return send_from_directory('.', 'index.html')
 
 # Add this to serve static files
@@ -135,15 +157,30 @@ def home():
 def serve_static(path):
     return send_from_directory('assets', path)
 
+def validate_request(data):
+    """Validate incoming request data"""
+    if not isinstance(data, dict):
+        return False, "Invalid request format"
+    if 'message' not in data:
+        return False, "Message field is required"
+    if not isinstance(data['message'], str):
+        return False, "Message must be a string"
+    return True, None
+
 @app.route('/api/chat', methods=['GET', 'POST'])
+@security_headers
 def chat():
     """Chatbot endpoint for CV-related questions."""
     if request.method == 'GET':
         return jsonify({'message': 'API is running'})
         
     try:
-        cv_text = load_cv_content()
         data = request.json
+        is_valid, error = validate_request(data)
+        if not is_valid:
+            return jsonify({'error': error}), 400
+        
+        cv_text = load_cv_content()
         question = data.get('message', '').strip()
         
         if not question:
@@ -191,4 +228,7 @@ def health_check():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=False)
+    host = os.environ.get('HOST', '0.0.0.0')
+    debug = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    
+    app.run(host=host, port=port, debug=debug)
