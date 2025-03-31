@@ -3,8 +3,6 @@ import os
 import logging
 from flask import Flask, request, jsonify, render_template, send_from_directory
 from flask_cors import CORS
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
 from datetime import datetime
 
 # Configure logging
@@ -22,12 +20,6 @@ API_KEY = os.getenv("MISTRAL_API_KEY")
 if not API_KEY:
     logger.error("MISTRAL_API_KEY environment variable is not set")
     raise ValueError("MISTRAL_API_KEY is not set. Please configure it in the environment variables.")
-
-limiter = Limiter(
-    app=app,
-    key_func=get_remote_address,
-    default_limits=["100 per day", "10 per minute"]
-)
 
 API_URL = "https://api.mistral.ai/v1/chat/completions"
 
@@ -138,7 +130,6 @@ def serve_static(path):
     return send_from_directory('assets', path)
 
 @app.route('/api/chat', methods=['GET', 'POST'])
-@limiter.limit("10 per minute")
 def chat():
     """Chatbot endpoint for CV-related questions."""
     if request.method == 'GET':
