@@ -1,11 +1,31 @@
 @import url("fontawesome-all.min.css");
 @import url("https://fonts.googleapis.com/css?family=Lato:400,400italic,700,700italic|Source+Code+Pro:400");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
 /*
 	Read Only by HTML5 UP
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
+
+:root {
+    --primary-color: #4a90e2;
+    --accent-color: #64ffda;
+    --bg-dark: #1a1b26;
+    --text-light: #e2e8f0;
+}
+
+body {
+    background: var(--bg-dark);
+    color: var(--text-light);
+    font-family: 'Inter', 'Lato', sans-serif;
+    line-height: 1.8;
+}
+
+/* Add subtle gradient to header */
+#header {
+    background: linear-gradient(180deg, #282935 0%, #1a1b26 100%);
+}
 
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
@@ -1713,7 +1733,8 @@ input, select, textarea {
 
 	.container {
 		margin: 0 auto;
-		max-width: calc(100% - 4.5em);
+		max-width: 1200px;
+		padding: 0 2rem;
 		width: 45em;
 	}
 
@@ -3336,3 +3357,86 @@ input, select, textarea {
 			}
 
 	}
+
+/* Update heading styles for more modern look */
+h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.03em;
+    font-weight: 600;
+}
+
+/* Add subtle animations for links */
+a {
+    transition: all 0.3s ease;
+}
+
+/* Enhance the banner/hero section */
+.image.main {
+    height: 40vh;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0 0 20px 20px;
+}
+
+/* Modern card styling for publications */
+.features article {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 1.5em;
+    transition: transform 0.2s ease;
+    border-top: none;
+    margin: 1em 0;
+}
+
+.features article:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Modern button styling */
+.button {
+    background: linear-gradient(135deg, #4a90e2 0%, #64ffda 100%);
+    border-radius: 8px;
+    padding: 0.8em 2em;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+}
+
+/* Modern social icons */
+.icons a {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0.5em;
+    transition: all 0.3s ease;
+}
+
+.icons a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+}
+
+/* Better mobile navigation */
+@media screen and (max-width: 736px) {
+    #header {
+        width: 100%;
+        transform: translateX(100%);
+    }
+    
+    .features article {
+        margin: 1em 0;
+    }
+    
+    .image.main {
+        height: 30vh;
+    }
+}
