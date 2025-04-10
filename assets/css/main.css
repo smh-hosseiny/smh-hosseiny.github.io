@@ -3400,6 +3400,11 @@ a {
     font-weight: 500;
     letter-spacing: 0.5px;
     transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    line-height: normal;
 }
 
 .button:hover {
