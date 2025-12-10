@@ -15,11 +15,14 @@
     --text-light: #e2e8f0;
 }
 
+
+
 body {
     background: var(--bg-dark);
     color: var(--text-light);
     font-family: 'Inter', 'Lato', sans-serif;
     line-height: 1.8;
+	font-size: 0.9375rem;
 }
 
 /* Add subtle gradient to header */
@@ -41,7 +44,7 @@ section, summary, time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	font-size: 100%;
+	/* font-size: 50%; */
 	font: inherit;
 	vertical-align: baseline;}
 
@@ -122,7 +125,7 @@ input, select, textarea {
 		color: #dddada;
 		/* color: #888; */
 		font-family: "Lato", sans-serif;
-		font-size: 16pt;
+		font-size: 13pt;
 		font-weight: 400;
 		line-height: 1.75em;
 	}
@@ -159,6 +162,7 @@ input, select, textarea {
 		color: #dddada;
 		font-weight: 700;
 		line-height: 1em;
+		font-size: 1.85em;
 		margin: 0 0 0.5625em 0;
 	}
 
@@ -169,18 +173,18 @@ input, select, textarea {
 		}
 
 	h2 {
-		font-size: 2em;
+		font-size: 1.5em;
 		line-height: 1.5em;
 	}
 
 	h3 {
-		font-size: 1.75em;
-		line-height: 1.5em;
+		font-size: 1.375em;
+		line-height: 1.25em;
 	}
 
 	h4 {
-		font-size: 1.25em;
-		line-height: 1.5em;
+		font-size: 1.1em;
+		line-height: 1.25em;
 	}
 	h4:hover {
 		color: #ffffff;
@@ -188,12 +192,12 @@ input, select, textarea {
 
 	h5 {
 		font-size: 0.9em;
-		line-height: 1.5em;
+		line-height: 0.975em;
 	}
 
 	h6 {
 		font-size: 0.7em;
-		line-height: 1.5em;
+		line-height: 0.95em;
 	}
 
 	sub {
@@ -1735,7 +1739,7 @@ input, select, textarea {
 		margin: 0 auto;
 		max-width: 1200px;
 		padding: 0 2rem;
-		width: 45em;
+		width: 60em;
 	}
 
 		.container.xsmall {
@@ -2692,13 +2696,13 @@ input, select, textarea {
 
 		.features article:first-child {
 			border-top: 0;
-			padding-top: 0;
+			padding-top: 1.5em;
 		}
 
 		.features article .image {
 			display: inline-block;
 			padding-right: 2.5em;
-			vertical-align: middle;
+			vertical-align: top;
 			width: 48%;
 		}
 
@@ -2709,12 +2713,13 @@ input, select, textarea {
 
 		.features article .inner {
 			display: inline-block;
-			vertical-align: middle;
+			vertical-align: top;
 			width: 50%;
 		}
 
 			.features article .inner > :last-child {
 				margin-bottom: 0;
+				margin-top: 0.25em;
 			}
 
 /* Header */
@@ -2785,7 +2790,7 @@ input, select, textarea {
 			}
 
 			#header > header h1 {
-				font-size: 1.75em;
+				font-size: 1.25em;
 				margin: 0;
 			}
 
@@ -2793,6 +2798,7 @@ input, select, textarea {
 				color: #a3a5a9;
 				font-style: italic;
 				margin: 1em 0 0 0;
+				font-size: 0.95em;
 			}
 
 		#header > footer {
@@ -2829,7 +2835,7 @@ input, select, textarea {
 			}
 
 				#header > nav ul li {
-					border-top: solid 2px #d5dcdd;
+					/* border-top: solid 2px #d5dcdd; */
 					display: block;
 					padding: 0;
 				}
@@ -2844,6 +2850,7 @@ input, select, textarea {
 						display: block;
 						padding: 0.85em 0;
 						text-decoration: none;
+						font-size: 1em;
 					}
 
 						#header > nav ul li a.active {
@@ -2865,7 +2872,7 @@ input, select, textarea {
 /* Main */
 
 	#main > section {
-		border-top: solid 6px #f4f4f4;
+		border-top: solid 0px #f4f4f4;
 	}
 
 		#main > section > .container {
@@ -3162,16 +3169,16 @@ input, select, textarea {
 			}
 
 			h2 {
-				font-size: 1.75em;
+				font-size: 1.25em;
 			}
 
 			h3 {
-				font-size: 1.5em;
+				font-size: 1.0em;
 			}
 
 			h4 {
 				font-size:
-				 1em;
+				 0.975em;
 			}
 
 
@@ -3196,11 +3203,11 @@ input, select, textarea {
 			}
 
 			header.major h2 {
-				font-size: 2.5em;
+				font-size: 1.75em;
 			}
 
 				header.major h2 + p {
-					font-size: 1.5em;
+					font-size: 1.0em;
 				}
 
 		/* Features */
@@ -3379,8 +3386,8 @@ a {
 
 /* Modern card styling for publications */
 .features article {
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.075);
+    border-radius: 14px;
     padding: 1.5em;
     transition: transform 0.2s ease;
     border-top: none;
@@ -3389,7 +3396,7 @@ a {
 
 .features article:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.14);
 }
 
 /* Modern button styling */
