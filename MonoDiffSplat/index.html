@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XB3PR2Y1TQ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-XB3PR2Y1TQ');
+    </script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>MonoDiffSplat: Room-Scale Reconstruction from a Single Image</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <meta property="og:site_name" content="Sparse View 3D Reconstruction with 2D Gaussian Splatting" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sparse View 3D Reconstruction: DA3 + G4Splat Pipeline" />
+    <meta property="og:description" content="Robust sparse-view 3D reconstruction using Depth Anything V3 priors and Geometry-Guided Gaussian Splatting with video diffusion inpainting." />
+
+    <script type="module" src="https://unpkg.com/@google/model-viewer@2.0.1/dist/model-viewer.min.js"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        <video autoplay loop playsinline muted>
+            <source src="assets/images/vid.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="highlight-clean">
+        <div class="container" style="max-width: 1200px;">
+            <h2 class="text-center" style="font-weight: bold; color: #007bff; margin-bottom: 5px;">MonoDiffSplat</h2>
+            <h1 class="text-center mb-3">
+                3D Scene Reconstruction using 2D Gaussian Splatting and Video Diffusion Inpainting
+            </h1>
+            <p class="text-center text-muted">Room-Scale 3D Reconstruction via Video Diffusion Priors and Parallax-Inducing SfM</p>
+        </div>
+
+        <div class="container" style="max-width: 1200px;">
+            <div class="row authors justify-content-center">
+                <div class="col-auto text-center">
+                    <h5><a href="#"><strong>Seyed M. Hossein Hosseini</strong></a></h5>
+                    <h6>York University</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <a class="btn btn-light" role="button" href="#">
+                💻 Code (Coming Soon)
+            </a>
+        </div>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="container" style="max-width: 1200px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Abstract</h2>
+                <p class="text-justify">
+                    Reconstructing high-fidelity, room-scale 3D scenes from a single RGB image remains a persistent challenge. Recent methods like G4Splat have made significant strides
+                     in sparse-view reconstruction by combining 2D Gaussian Splatting with generative priors,
+                     specifically utilizing Stable Virtual Camera for single-view inputs, and enforcing planar constraints to regularize geometry. However, 
+                     G4Splat still faces limitations in handling heavily occluded regions, where geometric priors fail to capture complex object interactions, 
+                     in single-view scenarios.
+                    <br><br>
+                    We present an enhanced G4Splat pipeline that addresses these limitations through two key innovations. First, we replace the standard MASt3R-SfM initialization with 
+                    Depth Anything V3 (DA3), lifting the single view into a denser, metric-accurate point cloud that provides a stronger anchor for the Gaussian optimization, bypassing the MAtCha-based chart
+                    alignment strategy which often fails in non-overlapping regions.. Second, we introduce a parallax-inducing camera trajectory strategy for the generative inpainting stage. Unlike standard rotational 
+                     paths or the plane-centric view selection used in the baseline, our "Wiggle & Dolly" trajectories force the video diffusion model to hallucinate valid depth cues and 
+                     resolve disocclusions by actively moving into the scene. This approach provides a robust geometric baseline, significantly improving single-view reconstruction quality in the complex,
+                      unseen regions that prior methods struggle to resolve.
+                </p>
+
+                <div class="pipeline-highlight">
+                    <p class="mb-0"><strong>Pipeline Highlights:</strong> Metric Depth Initialization, Parallax-Inducing Generative Inpainting, and Plane-Based Geometric Regularization.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="container mb-4" style="max-width: 1200px;">
+        <div class="row justify-content-center mt-4">
+            <!-- Left: Static image -->
+            <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                <div class="embed-responsive embed-responsive-16by9 shadow-sm rounded">
+                    <img
+                        src="assets/images/single_input.png"
+                        class="embed-responsive-item w-100 h-100"
+                        alt="Rendered frame from single view reconstruction"
+                        style="object-fit: cover;"
+                    />
+                </div>
+                <p class="mt-2 text-center text-muted small">
+                    Single input image
+                </p>
+            </div>
+
+            <!-- Right: Video -->
+            <div class="col-12 col-lg-6">
+                <div class="embed-responsive embed-responsive-16by9 shadow-sm rounded">
+                    <video class="embed-responsive-item" autoplay loop playsinline muted>
+                        <source src="assets/images/single_view_replica.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p class="mt-2 text-center text-muted small">
+                    Generated scene
+                </p>
+            </div>
+
+        </div>
+
+
+
+        <div class="row justify-content-center mt-4">
+            <!-- Left: Static image -->
+            <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                <div class="embed-responsive embed-responsive-16by9 shadow-sm rounded">
+                    <img
+                        src="assets/images/bonsai.JPG"
+                        class="embed-responsive-item w-100 h-100"
+                        alt="Rendered frame from single view reconstruction"
+                        style="object-fit: cover;"
+                    />
+                </div>
+                <p class="mt-2 text-center text-muted small">
+                    Single input image
+                </p>
+            </div>
+
+            <!-- Right: Video -->
+            <div class="col-12 col-lg-6">
+                <div class="embed-responsive embed-responsive-16by9 shadow-sm rounded">
+                    <video class="embed-responsive-item" autoplay loop playsinline muted>
+                        <source src="assets/images/bonsai-2.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p class="mt-2 text-center text-muted small">
+                    Generated scene
+                </p>
+            </div>
+
+        </div>
+
+
+
+                <div class="row justify-content-center mt-4">
+            <!-- Left: Static image -->
+            <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                <div class="embed-responsive embed-responsive-16by9 shadow-sm rounded">
+                    <img
+                        src="assets/images/garden.JPG"
+                        class="embed-responsive-item w-100 h-100"
+                        alt="Rendered frame from single view reconstruction"
+                        style="object-fit: cover;"
+                    />
+                </div>
+                <p class="mt-2 text-center text-muted small">
+                    Single input image
+                </p>
+            </div>
+
+            <!-- Right: Video -->
+            <div class="col-12 col-lg-6">
+                <div class="embed-responsive embed-responsive-16by9 shadow-sm rounded">
+                    <video class="embed-responsive-item" autoplay loop playsinline muted>
+                        <source src="assets/images/garden_vid-2.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <p class="mt-2 text-center text-muted small">
+                    Generated scene
+                </p>
+            </div>
+
+        </div>
+
+
+        <p class="mt-3 text-center text-muted">
+            <strong>Figure 1:</strong> Result on Single Image 3D Reconstruction using our proposed pipeline.
+        </p>
+
+
+    </div>
+
+        
+
+
+    <hr class="divider" />
+
+    <div class="container" style="max-width: 1200px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Method Overview</h2>
+                <p class="text-justify">
+                    Our method tackles the sparse view problem in three stages:
+                </p>
+                <div class="method-stages">
+                    <ul>
+                        <li>
+                            <strong>1. Dense Metric Initialization:</strong> We utilize Depth Anything V3 to lift 2D input images into a dense 3D point cloud.
+                        </li>
+                        <li>
+                            <strong>2. Geometric Regularization (Adapted from G4Splat): </strong> 
+                            We adopt G4Splat's geometry-guided framework, utilizing RANSAC plane fitting and SAM-based normal estimation to constrain Gaussian optimization in planar regions.
+                        </li>
+                        <li>
+                            <strong>3. Generative Inpainting with Parallax Trajectories (See3D):</strong> 
+                             Unlike G4Splat, which defaults to Stable Virtual Camera for single-view inputs, we employ the See3D video diffusion prior by 
+                             introducing a parallax-inducing trajectory. This strategy forces the model to hallucinate structural depth cues and resolve disocclusions (e.g., behind tables), 
+                             effectively filling the "black void" artifacts that standard plane-aware view selection fails to address.
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Geometric Consistency Section with Sliders -->
+    <div class="container mb-4" style="max-width: 1200px;">
+        <h2 class="font-weight-bold">Geometric Consistency</h2>
+        <p>Surface normals and depth maps are estimated to regularize the Gaussian splat orientations and positions during optimization. This prevents floating artifacts and encourages accurate geometry from the input view(s).</p>
+        
+        <div class="row mt-4">
+            <div class="col-12 col-md-6 mb-4">
+                <div id="comparison1" class="small-bal-container">
+                    <div class="bal-wrapper">
+                        <div class="bal-after">
+                            <img src="assets/images/tree.JPG" alt="RGB image">
+                            <div class="bal-afterPosition afterLabel">RGB Image</div>
+                        </div>
+                        <div class="bal-before">
+                            <div class="bal-before-inset">
+                                <img src="assets/images/depth_tree.png" alt="Normal map">
+                                <div class="bal-beforePosition beforeLabel">Depth Map</div>
+                            </div>
+                        </div>
+                        <div class="bal-handle">
+                            <span class="handle-left-arrow"></span>
+                            <span class="handle-right-arrow"></span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center text-muted"><small>Scene 1: Outdoor scene with geometric detail </small></p>
+            </div>
+
+            <div class="col-12 col-md-6 mb-4">
+                <div id="comparison2" class="small-bal-container">
+                    <div class="bal-wrapper">
+                        <div class="bal-after">
+                            <img src="assets/images/office.png" alt="RGB image">
+                            <div class="bal-afterPosition afterLabel">RGB Image</div>
+                        </div>
+                        <div class="bal-before">
+                            <div class="bal-before-inset">
+                                <img src="assets/images/depth_office.png" alt="Normal map">
+                                <div class="bal-beforePosition beforeLabel">Depth Map</div>
+                            </div>
+                        </div>
+                        <div class="bal-handle">
+                            <span class="handle-left-arrow"></span>
+                            <span class="handle-right-arrow"></span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-center text-muted"><small>Scene 2: Room reconstruction </small></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- <hr class="divider" /> -->
+    <!-- <div class="container" style="max-width: 1200px;">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>3D Model Exports</h2>
+                <p class="text-justify">
+                    Our reconstructed scenes can be exported to standard mesh formats (GLB/GLTF) using marching cubes for easy integration into 3D renderers or modeling software. Below are interactive 3D models you can rotate and explore. These models were reconstructed from <strong>only 3 input views</strong>.
+                </p>
+            </div>
+        </div>
+
+        <div class="mesh-grid" id="meshContainer">
+            <div class="mesh-item">
+                <div class="model-viewer-container">
+                    <model-viewer 
+                        src="assets/meshes/sweaterfrog_1step.glb"
+                        alt="Room reconstruction from 3 views"
+                        camera-controls
+                        auto-rotate
+                        environment-image="neutral"
+                        shadow-intensity="1">
+                    </model-viewer>
+                </div>
+                <h6 class="caption">Room Scene (Replica Dataset)</h6>
+                <p class="text-muted small">Reconstructed from 3 views with DA3+G4Splat</p>
+            </div>
+
+            <div class="mesh-item">
+                <div class="model-viewer-container">
+                    <model-viewer 
+                        src="assets/meshes/yo.glb"
+                        alt="Outdoor scene reconstruction"
+                        camera-controls
+                        auto-rotate
+                        environment-image="neutral"
+                        shadow-intensity="1">
+                    </model-viewer>
+                </div>
+                <h6 class="caption">Outdoor Scene</h6>
+                <p class="text-muted small">Single view reconstruction with inpainting</p>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <p class="text-center text-muted">
+                    <small>💡 Use your mouse to rotate and zoom the 3D models. Models may take a moment to load.</small>
+                </p>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <hr class="divider" />
+
+   <div class="container" style="max-width: 1200px;">
+   <div class="row">
+        <div class="col-md-12">
+            <h2>Key Contributions</h2>
+            <div class="method-stages">
+                <ul>
+                    <li>
+                        <strong>Metric-Accurate Initialization (DA3):</strong>
+                        Replaced the baseline <strong>MASt3R-SfM</strong> and chart alignment with <strong>Depth Anything V3</strong>, lifting single images into dense, scale-consistent 3D point clouds to resolve initialization errors in non-overlapping regions.
+                    </li>
+                    <li>
+                        <strong>Parallax-Inducing Trajectories:</strong>
+                        Designed a novel <strong>"Wiggle &amp; Dolly"</strong> camera strategy that outperforms standard plane-aware view selection. This forces video diffusion priors to hallucinate structural depth cues and resolve disocclusions, effectively filling the <em>"black void"</em> artifacts found in heavily occluded areas.
+                    </li>
+                    <li>
+                        <strong>Strict Geometric Regularization:</strong>
+                        Enhanced G4Splat’s <strong>SAM-guided constraints</strong> with stricter normal consistency losses in unobserved regions, preventing <em>"floating walls"</em> and <em>"black shadows"</em> caused by inconsistent generative inpainting.
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div> -->
+
+    <hr class="divider" />
+
+    <div class="container" style="max-width: 1200px;">
+        <h2>Acknowledgments</h2>
+        <p class="text-justify">
+            This work builds upon <a href="https://github.com/DaLi-Jack/G4Splat/tree/main">G4Splat</a> 
+            and <a href="https://github.com/ByteDance-Seed/Depth-Anything-3/tree/main">Depth Anything V3</a>. We thank 
+            the authors for making their code and models publicly available.
+        </p>
+    </div>
+
+    
+
+    <footer class="text-center py-4" style="background-color: #f8f9fa; margin-top: 3rem;">
+        <div class="container">
+            <p class="text-muted mb-2">
+                <small>Sparse View 3D Reconstruction Project, 2025.</small>
+            </p>
+            <p class="text-muted mb-0">
+                <small>Borrowed the website code from <a rel="license" href="https://dreamfusion3d.github.io">here</a></small>
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Before/After Image Comparison Slider
+        class BeforeAfter {
+            constructor(options) {
+                this.container = document.querySelector(options.id);
+                if (!this.container) return;
+                
+                this.before = this.container.querySelector('.bal-before');
+                this.beforeInset = this.container.querySelector('.bal-before-inset');
+                this.handle = this.container.querySelector('.bal-handle');
+                
+                this.isDragging = false;
+                this.init();
+            }
+            
+            init() {
+                this.container.addEventListener('mousedown', this.onStart.bind(this));
+                this.container.addEventListener('touchstart', this.onStart.bind(this));
+                
+                document.addEventListener('mousemove', this.onMove.bind(this));
+                document.addEventListener('touchmove', this.onMove.bind(this));
+                
+                document.addEventListener('mouseup', this.onEnd.bind(this));
+                document.addEventListener('touchend', this.onEnd.bind(this));
+                
+                // Set initial position
+                this.updatePosition(50);
+            }
+            
+            onStart(e) {
+                this.isDragging = true;
+                this.container.style.cursor = 'grabbing';
+            }
+            
+            onMove(e) {
+                if (!this.isDragging) return;
+                
+                e.preventDefault();
+                const rect = this.container.getBoundingClientRect();
+                const x = (e.type.includes('mouse') ? e.clientX : e.touches[0].clientX) - rect.left;
+                const percent = Math.max(0, Math.min(100, (x / rect.width) * 100));
+                
+                this.updatePosition(percent);
+            }
+            
+            onEnd() {
+                this.isDragging = false;
+                this.container.style.cursor = 'grab';
+            }
+            
+            updatePosition(percent) {
+                this.before.style.width = percent + '%';
+                this.beforeInset.style.width = (10000 / percent) + '%';
+                this.handle.style.left = percent + '%';
+            }
+        }
+        
+        // Initialize sliders
+        document.addEventListener('DOMContentLoaded', function() {
+            new BeforeAfter({ id: '#comparison1' });
+            new BeforeAfter({ id: '#comparison2' });
+        });
+
+        // 3D Model loading handlers
+        document.querySelectorAll('model-viewer').forEach(viewer => {
+            viewer.addEventListener('load', () => {
+                console.log('Model loaded successfully');
+            });
+            viewer.addEventListener('error', (e) => {
+                console.error('Error loading model:', e);
+            });
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

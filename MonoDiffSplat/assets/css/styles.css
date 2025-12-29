@@ -1,0 +1,347 @@
+/* Base Styles */
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #212529;
+    font-weight: 300;
+}
+
+.highlight-clean {
+    background-color: #f8f9fa;
+    padding: 2rem 0;
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: #dee2e6;
+    margin: 2rem 0;
+}
+
+.banner {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.banner video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.authors {
+    margin-top: 1.5rem;
+    padding-bottom: 10px;
+}
+
+.authors .col-sm-3 {
+    padding: 0;
+}
+
+.authors h5 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    font-weight: 300;
+}
+
+.authors h6 {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.buttons {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.btn-light {
+    margin: 0.25rem;
+    padding: 0.5rem 1.5rem;
+    border: 1px solid #dee2e6;
+}
+
+.btn-light.disabled {
+    background-color: #ccc;
+}
+
+.caption {
+    text-align: center;
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.model-viewer-container {
+    width: 100%;
+    height: 400px;
+    margin: 1rem 0;
+}
+
+model-viewer {
+    width: 100%;
+    height: 100%;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.mesh-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.mesh-item {
+    text-align: center;
+}
+
+.pipeline-highlight {
+    background-color: #e7f3ff;
+    padding: 1rem;
+    border-left: 4px solid #007bff;
+    margin: 1.5rem 0;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Source Sans Pro", Calibri, Candara, Arial, sans-serif;
+    font-weight: 300;
+    line-height: 1.1;
+    color: inherit;
+}
+
+p, .caption {
+    font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+    margin-top: 4px;
+}
+
+/* Method Stages */
+.method-stages {
+    margin-top: 1.5rem;
+}
+
+.method-stages ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.method-stages li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.method-stages li:last-child {
+    border-bottom: none;
+}
+
+/* Image Comparison Slider Styles */
+.small-bal-container {
+    width: 100%;
+    height: 400px;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    cursor: grab;
+}
+
+.small-bal-container:active {
+    cursor: grabbing;
+}
+
+.bal-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.bal-after {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.bal-before {
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 15;
+    overflow: hidden;
+}
+
+.bal-before-inset {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+}
+
+.bal-after img,
+.bal-before img {
+    object-fit: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-position: 50% 50%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    user-select: none;
+}
+
+.bal-beforePosition,
+.bal-afterPosition {
+    position: absolute;
+    top: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 5px 12px;
+    pointer-events: none;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 20;
+}
+
+.bal-beforePosition {
+    left: 10px;
+}
+
+.bal-afterPosition {
+    right: 10px;
+}
+
+.bal-handle {
+    height: 44px;
+    width: 44px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -22px;
+    margin-top: -22px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    z-index: 20;
+    pointer-events: none;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.handle-left-arrow,
+.handle-right-arrow {
+    width: 0;
+    height: 0;
+    border: 6px inset transparent;
+    position: absolute;
+    top: 50%;
+    margin-top: -6px;
+}
+
+.handle-left-arrow {
+    border-right: 6px solid #fff;
+    left: 50%;
+    margin-left: -17px;
+}
+
+.handle-right-arrow {
+    border-left: 6px solid #fff;
+    right: 50%;
+    margin-right: -17px;
+}
+
+.bal-handle::before,
+.bal-handle::after {
+    content: " ";
+    display: block;
+    width: 3px;
+    background: #fff;
+    position: absolute;
+    left: 50%;
+    margin-left: -1.5px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+.bal-handle::before {
+    bottom: 100%;
+    margin-bottom: -22px;
+    height: 50vh;
+}
+
+.bal-handle::after {
+    top: 100%;
+    margin-top: -22px;
+    height: 50vh;
+}
+
+/* Utility Classes */
+.invisible {
+    display: none;
+}
+
+.display-none {
+    display: none !important;
+}
+
+.row:not(:last-child):not(.authors) {
+    margin-bottom: 16px;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 575.98px) {
+    body {
+        font-size: 0.9rem;
+    }
+
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    .banner {
+        height: 200px;
+    }
+
+    .model-viewer-container {
+        height: 300px;
+    }
+
+    .small-bal-container {
+        height: 300px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .authors h5 {
+        font-size: 20px;
+    }
+    
+    .authors h6 {
+        font-size: 16px;
+        padding-bottom: 6px;
+    }
+    
+    .show_wide {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .btn-search {
+        font-size: 16px;
+        padding-left: 4px;
+        padding-right: 4px;
+    }
+}
