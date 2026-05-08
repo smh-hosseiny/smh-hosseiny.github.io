@@ -10,6 +10,11 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<meta name="description" content="Sam (Seyed M.) Hosseini - Computer Vision Researcher & Engineer (MASc, York University). Specializing in 3D Scene Understanding, Metric Depth Estimation, Gaussian Splatting, and MLOps." />
+		<meta property="og:title" content="Sam (Seyed M.) Hosseini | Computer Vision & 3D AI Researcher" />
+		<meta property="og:description" content="Computer Vision Researcher & Engineer at Elder Lab, York University. Specializing in 3D Scene Understanding, Metric Depth Estimation, and Gaussian Splatting." />
+		<meta property="og:image" content="https://smh-hosseiny.github.io/images/avatar.jpg" />
+		<meta property="og:url" content="https://smh-hosseiny.github.io/" />
+		<meta property="og:type" content="website" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body class="is-preload">
@@ -49,7 +54,7 @@
 
 					<section id="one">
 						<div class="image main" data-position="center">
-							<img src="images/banner.jpg" alt="Research Banner" />
+							<img src="images/banner.jpg" alt="Metric Depth Estimation" style="object-position: center 75%" />
 						</div>
 						<div class="container">
 							<h2>Welcome!</h2>
@@ -78,15 +83,7 @@
 				
 							<div class="container">
 								<p style="margin-bottom: 0;">View my CV <a href="assets/CV_academic.pdf" target="_blank">here</a>. Have questions about my background or research? 
-									<a href="/chat" target="_blank" class="button"  style="
-										display: inline-block; 
-										border-radius: 4px; 
-										color: white; 
-										text-decoration: none; 
-										padding: 8px 15px; /* Increased Padding */
-										line-height: 1.2; /* Normal line height for button text */
-										margin-left: 10px; /* Separates the button from the question mark */
-									">
+									<a href="chat.html" target="_blank" rel="noopener noreferrer" class="button cta">
 										Chat with my AI Assistant
 									</a>       
 								</p>
@@ -99,7 +96,7 @@
 						<div class="container">
 							<h3>Current Research</h3>
 							<p style="text-align:justify;">
-								My research explores the frontier of <strong>3D scene understanding</strong>, blending classical geometric constraints with modern generative approaches. I focus on developing <strong>Semantics-Guided Zero-Shot Perception</strong> systems that leverage vision foundation models to recover scale-accurate metric depth from single images. Simultaneously, I am investigating the synergy between <strong>Gaussian Splatting</strong> and <strong>Diffusion Models</strong> for high-fidelity single-view reconstruction and real-time <strong>Dense Neural SLAM</strong>, aiming to solve scale ambiguity and improve mapping accuracy in autonomous environments.
+								My research explores the frontier of <strong>3D scene understanding</strong>, blending classical geometric constraints with modern generative approaches. I focus on developing <strong>Semantics-Guided Zero-Shot Perception</strong> systems that leverage vision foundation models to recover scale-accurate metric depth from single images. I am also investigating the synergy between <strong>Gaussian Splatting</strong> and <strong>Diffusion Models</strong> for high-fidelity single-view 3D reconstruction, aiming to resolve scale ambiguity and improve geometric consistency from limited observations.
 							</p>
 						</div>
 					</section>		
@@ -112,21 +109,21 @@
 							<div class="features">
 					
 								<article>
+									<a href="https://smh-hosseiny.github.io/MonoDiffSplat/" class="image"><img src="images/demo5.gif" alt="MonoDiffSplat" /></a>
+									<div class="inner">
+										<a href="https://smh-hosseiny.github.io/MonoDiffSplat/">
+											<h4>MonoDiffSplat: 3D Scene Reconstruction using 2D Gaussian Splatting and Video Diffusion Inpainting</h4></a>
+										<p>Combined Depth Anything V3 and G4Splat pipelines and introduced a parallax-inducing camera trajectory strategy for the generative inpainting stage.
+											These trajectories force the video diffusion model to hallucinate valid depth cues and resolve disocclusions by actively moving into the scene</p>
+									</div>
+								</article>
+
+								<article>
 									<a href="https://github.com/smh-hosseiny/visual-rag" class="image"><img src="images/demo4.gif" alt="VisualRAG Agent" /></a>
 									<div class="inner">
 										<a href="https://github.com/smh-hosseiny/visual-rag">
 											<h4>VisualRAG: Agentic Competitive Intelligence</h4></a>
 										<p>Engineered an autonomous Agentic RAG system using DeepSeek-OCR and LangGraph. Treats research as a visual task to extract structured data from complex PDFs, solving retrieval bottlenecks where standard text scrapers fail.</p>
-									</div>
-								</article>
-
-								<article>
-									<a href="https://smh-hosseiny.github.io/MonoDiffSplat/" class="image"><img src="images/demo5.gif" alt="MonoDiffSplat" /></a>
-									<div class="inner">
-										<a href="https://smh-hosseiny.github.io/MonoDiffSplat/">
-											<h4>MonoDiffSplat: 3D Scene Reconstruction using 2D Gaussian Splatting and Video Diffusion Inpainting</h4></a>
-										<p>Combined Depth Anything V3 and G4Splat pipelines and introduced a parallax-inducing camera trajectory strategy for the generative inpainting stage. 
-											These trajectories force the video diffusion model to hallucinate valid depth cues and resolve disocclusions by actively moving into the scene</p>
 									</div>
 								</article>
 
@@ -147,7 +144,7 @@
 								</article>
 					
 								<article>
-									<a href="https://smh-hosseiny.github.io/SOR-3D/" class="image"><img src="images/demo1.gif" alt="SOR 3D" /></a>
+									<a href="https://smh-hosseiny.github.io/SOR-3D/" class="image"><img src="images/demo1.gif" alt="SOR 3D" style="object-position: top" /></a>
 									<div class="inner">
 										<a href="https://smh-hosseiny.github.io/SOR-3D/"><h4>Single-View Geometric Reconstruction</h4></a>
 										<p>Formulated a geometric reconstruction algorithm for symmetric objects from single images. Benchmarked against NeRF and Gaussian Splatting methods (One-2-3-45, DreamGaussian) on Pix3D.</p>
@@ -172,28 +169,34 @@
 							<p>Selected peer-reviewed publications.</p>
 							<div class="features">
 								<article>
-									<a href="https://jspenmar.github.io/MDEC/" class="image"><img src="images/3.jpeg" alt="" /></a>
+									<a href="#" class="image"><img src="images/mono.jpg" alt="Explainable Monocular Depth" /></a>
 									<div class="inner">
-										<a href="https://arxiv.org/abs/2404.16831"> <h4>The Third Monocular Depth Estimation Challenge</h4></a>
-										<p>Spencer, et al., <i> 
-											Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2024</i>. </p>
-									</div>
-								</article>
-						
-								<article>
-									<a href="https://smh-hosseiny.github.io/SOR-3D" class="image"><img src="images/2.jpg" alt="" /></a>
-									<div class="inner">
-										<a href="https://smh-hosseiny.github.io/SOR-3D"><h4>Single-View 3D Reconstruction of Surfaces of Revolution</h4></a>
-										<p>S.M.H. Hosseini, S.M. Nasiri, R. Hosseini, H. Moradi, 2022</p>
+										<a href="#"><h4>Toward Explainable Monocular Depth Estimation</h4></a>
+										<p><strong>S. Hosseini</strong>, J.H. Elder, D.N. White, A. Alizadeh Naeini, <i>Conference on Robots and Vision (CRV), 2026</i>.</p>
 									</div>
 								</article>
 
 								<article>
-									<a href="https://github.com/smh-hosseiny/CTtrack" class="image"><img src="images/1.jpg" alt="" /></a>
+									<a href="https://smh-hosseiny.github.io/SOR-3D" class="image"><img src="images/2.jpg" alt="SOR-3D" style="object-position: top" /></a>
 									<div class="inner">
-										<a href="https://www.sciencedirect.com/science/article/pii/S2772528622000619"> <h4>CTtrack: A CNN+Transformer Framework for Fiber Orientation</h4></a>
-										<p>S.M.H. Hosseini, M. Hassanpour, S. Masoudnia, S. Iraji, S. Raminfard, M. Nazem-Zadeh, <i> 
-											Neuroscience Informatics, 2022</i>. </p>
+										<a href="https://smh-hosseiny.github.io/SOR-3D"><h4>Single-View 3D Reconstruction of Surfaces of Revolution</h4></a>
+										<p><strong>S. Hosseini</strong>, S.M. Nasiri, R. Hosseini, H. Moradi, <i>The Visual Computer, 41(11), 8961–8973, 2025</i>.</p>
+									</div>
+								</article>
+
+								<article>
+									<a href="https://jspenmar.github.io/MDEC/" class="image"><img src="images/3.jpeg" alt="MDEC Challenge" /></a>
+									<div class="inner">
+										<a href="https://arxiv.org/abs/2404.16831"><h4>The Third Monocular Depth Estimation Challenge</h4></a>
+										<p>J. Spencer, et al., <strong>S. Hosseini</strong>, et al., <i>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2024</i>.</p>
+									</div>
+								</article>
+
+								<article>
+									<a href="https://github.com/smh-hosseiny/CTtrack" class="image"><img src="images/1.jpg" alt="CTtrack" /></a>
+									<div class="inner">
+										<a href="https://www.sciencedirect.com/science/article/pii/S2772528622000619"><h4>CTtrack: A CNN+Transformer Framework for Fiber Orientation Estimation &amp; Tractography</h4></a>
+										<p><strong>S. Hosseini</strong>, M. Hassanpour, S. Masoudnia, S. Iraji, S. Raminfard, M. Nazem-Zadeh, <i>Neuroscience Informatics, 2(4), 100099, 2022</i>.</p>
 									</div>
 								</article>
 
@@ -209,7 +212,7 @@
 					<section id="footer">
 						<div class="container">
 							<ul class="copyright">
-								<li>&copy; 2024 Seyed M. Hosseini. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+								<li>&copy; 2026 Seyed M. Hosseini. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 							</ul>
 						</div>
 					</section>
@@ -224,6 +227,50 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+
+		<!-- Scroll-spy: update sidebar nav active state on scroll -->
+		<script>
+			(function() {
+				var ids = ['one', 'research', 'projects', 'three'];
+				var links = {};
+				document.querySelectorAll('#nav a').forEach(function(a) {
+					var href = a.getAttribute('href');
+					if (href && href.charAt(0) === '#') links[href.substring(1)] = a;
+				});
+
+				var observer = new IntersectionObserver(function(entries) {
+					var visible = {};
+					entries.forEach(function(e) { visible[e.target.id] = e.intersectionRatio; });
+
+					var best = null, bestRatio = -1;
+					ids.forEach(function(id) {
+						var r = visible[id] !== undefined ? visible[id] : 0;
+						if (r > bestRatio) { best = id; bestRatio = r; }
+					});
+
+					if (bestRatio <= 0) {
+						var refY = window.scrollY + 120;
+						ids.forEach(function(id) {
+							var el = document.getElementById(id);
+							if (el && el.getBoundingClientRect().top + window.scrollY <= refY) best = id;
+						});
+					}
+
+					if (best && links[best]) {
+						Object.values(links).forEach(function(a) { a.classList.remove('active'); });
+						links[best].classList.add('active');
+					}
+				}, {
+					rootMargin: '-20% 0px -50% 0px',
+					threshold: [0, 0.1, 0.25, 0.5, 0.75, 1]
+				});
+
+				ids.forEach(function(id) {
+					var el = document.getElementById(id);
+					if (el) observer.observe(el);
+				});
+			})();
+		</script>
 
 	</body>
 </html>

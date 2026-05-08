@@ -7,72 +7,151 @@
     <!-- Link to your existing site styles -->
     <link rel="stylesheet" href="assets/css/main.css" />
     <style>
-        /* Chat container styles */
-        .chat-container {
-            max-width: 800px;
-            margin: 0 auto;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 20px;
+        /* Chat shell — matches design system */
+        .chat-shell {
+            max-width: 700px;
+            margin: 2em auto;
+            background: #282935;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            height: 70vh;
+            max-height: 600px;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 22px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            flex-shrink: 0;
+        }
+
+        .chat-header h2 {
+            margin: 0;
+            font-size: 1.1em;
+            color: #fff;
+            line-height: 1;
+        }
+
+        .chat-header .back-link {
+            color: #a3a5a9;
+            font-size: 0.85em;
+            text-decoration: none;
+            border: 0;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .chat-header .back-link:hover {
+            color: #fff;
+        }
+
+        .chat-body {
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 18px 22px;
+            gap: 14px;
         }
 
         .chat-messages {
-            height: 400px;
+            flex: 1;
             overflow-y: auto;
-            margin-bottom: 20px;
-            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding-right: 4px;
         }
 
         .message {
-            margin-bottom: 10px;
-            padding: 10px;
-            border-radius: 5px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            max-width: 80%;
+            font-size: 14px;
+            line-height: 1.55;
         }
 
         .user-message {
-            background-color: #007bff;
-            color: white;
-            margin-left: 20%;
+            background-color: #4a90e2;
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 3px;
         }
 
         .bot-message {
-            background-color: #d0d0d0;
-            margin-right: 20%;
-            color: #201f1f;
+            background-color: #34354a;
+            color: #e2e8f0;
+            align-self: flex-start;
+            border-bottom-left-radius: 3px;
         }
 
         .chat-input {
             display: flex;
             gap: 10px;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 12px;
+            flex-shrink: 0;
         }
 
         .chat-input input {
             flex: 1;
-            padding: 10px;
-            border: 1px solid #ccc;
+            padding: 0 14px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            color: #e2e8f0;
+            background: #1a1b26;
+            font-family: 'Inter', 'Lato', sans-serif;
+            font-size: 14px;
+            outline: 0;
+        }
+
+        .chat-input input:focus {
+            border-color: #4a90e2;
+        }
+
+        .chat-input button {
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
             border-radius: 5px;
-            color: #252525;
+            padding: 0 1.2em;
+            height: 40px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .chat-input button:hover {
+            background-color: #5a9de8;
         }
 
         .typing-indicator {
             display: none;
-            padding: 10px;
-            background-color: #f1f1f1;
-            border-radius: 5px;
-            margin-right: 20%;
-            margin-bottom: 10px;
-            color: #666;
+            padding: 10px 14px;
+            background-color: #34354a;
+            border-radius: 10px;
+            align-self: flex-start;
+            max-width: 80%;
         }
 
         .typing-indicator span {
             display: inline-block;
-            width: 8px;
-            height: 8px;
-            background-color: #666;
+            width: 7px;
+            height: 7px;
+            background-color: #a3a5a9;
             border-radius: 50%;
-            margin-right: 5px;
+            margin-right: 4px;
             animation: typing 1s infinite;
         }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
 
         @keyframes typing {
             0%, 100% { transform: translateY(0); }
@@ -80,52 +159,37 @@
         }
 
         .error-message {
-            color: #dc3545;
-            background-color: #f8d7da;
+            color: #ff6b6b;
+            background-color: rgba(222, 30, 30, 0.15);
             padding: 10px;
             border-radius: 5px;
-            margin-bottom: 10px;
         }
-        
+
         .send-button-disabled {
             opacity: 0.6;
             cursor: not-allowed;
         }
 
-        .loading {
-            opacity: 0.7;
-            pointer-events: none;
+        .char-counter {
+            font-size: 11px;
+            color: #a3a5a9;
+            font-family: 'Source Code Pro', monospace;
         }
 
         @media screen and (max-width: 480px) {
-            .chat-container {
-                padding: 10px;
+            .chat-shell {
                 margin: 10px;
+                height: calc(100vh - 64px);
+                max-height: none;
             }
-            
-            .user-message {
-                margin-left: 10%;
-            }
-            
-            .bot-message {
-                margin-right: 10%;
-            }
-            
+
             .chat-input {
                 flex-direction: column;
             }
-            
+
             .chat-input button {
-                margin-top: 10px;
                 width: 100%;
             }
-        }
-
-        .char-counter {
-            font-size: 0.8em;
-            color: #252525;
-            align-self: center;
-            margin-right: 10px;
         }
     </style>
 </head>
@@ -136,10 +200,12 @@
     <div id="wrapper">
         <div id="main">
             <section>
-                <div class="container">
-                    <h2>Chat with My CV</h2>
-                    
-                    <div class="chat-container" role="main">
+                <div class="chat-shell" role="main">
+                    <header class="chat-header">
+                        <h2>Chat with My CV</h2>
+                        <a href="index.html" class="back-link">&larr; Back to Homepage</a>
+                    </header>
+                    <div class="chat-body">
                         <div class="chat-messages" id="chat-messages" role="log" aria-live="polite">
                             <div class="message bot-message">
                                 Hi there! I'm Seyed's CV assistant. Ask me anything about his education, research, publications, or skills!
@@ -149,16 +215,12 @@
                             </div>
                         </div>
                         <div class="chat-input">
-                            <input type="text" id="message-input" placeholder="Type your message..." 
+                            <input type="text" id="message-input" placeholder="Type your message..."
                                    autocomplete="off" aria-label="Type your message">
                             <span id="char-counter" class="char-counter">0/500</span>
                             <button id="send-button" aria-label="Send message">Send</button>
                         </div>
                     </div>
-                    
-                    <p style="margin-top: 60px;">
-                        <a href="index.html" class="button">Back to Homepage</a>
-                    </p>
                 </div>
             </section>
         </div>

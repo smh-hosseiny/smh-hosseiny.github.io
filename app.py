@@ -58,28 +58,17 @@ def load_cv_content():
         logger.error("CV content file not found")
         # Fallback to hardcoded content
         cv_content = """
-            I am a graduate researcher in Electrical and Computer Engineering at York University, 
-            specializing in monocular metric depth estimation at the Elder Lab under the supervision 
-            of Prof. James Elder.
-            Prior to this, I completed my B.Sc. in Electrical Engineering at the University of Tehran (2021), 
-            where I conducted research on 3D reconstruction of symmetrical objects from single images at the 
-            Computational Audio-Vision Lab with Prof. Reshad Hosseini.
-            Research Interests:
-            - Computer Vision
-            - 3D Scene Understanding
-            - Medical Image Analysis
-            Publications:
-            - The third monocular depth estimation challenge. Spencer, et al., CVPR 2024.
-            - CTtrack: A CNN+Transformer-based framework for fiber orientation estimation & tractography. 
-            S.M.H. Hosseini, et al., Neuroscience Informatics, 2022.
-            - Single-view 3D Reconstruction of Surface of Revolution. S.M.H. Hosseini, S.M. Nasiri, 
-            R. Hosseini, H. Moradi, 2022
-            Skills:
-            - Programming: Python, C, C++, MATLAB, SQL, Bash
-            - Frameworks: TensorFlow, Keras, PyTorch, OpenCV
-            - Tools: Git, Docker, AWS
-            Current Position:
-            - Computer Vision Researcher at Elder Lab, York University (2024–Present, Toronto, ON)
+            Sam (Seyed M.) Hosseini - Computer Vision Researcher & Engineer at Elder Lab, York University.
+            Education: MASc in ECE from York University (GPA 4.0/4.0, 2022-2024), BSc in EE from University of Tehran (2016-2021).
+            Current Research: 3D scene understanding, Gaussian Splatting, Diffusion Models, Dense Neural SLAM,
+            Semantics-Guided Zero-Shot Metric Depth Estimation.
+            Core Interests: 3D Reconstruction & Multi-View Geometry, Geometric Deep Learning, MLOps & Cloud Deployment, Medical Image Analysis.
+            Projects: VisualRAG (Agentic RAG with DeepSeek-OCR & LangGraph), MonoDiffSplat (3D reconstruction via 2D Gaussian Splatting & Video Diffusion),
+            Semantics-Guided Zero-shot Metric Depth, Real-Time Detection & MLOps Pipeline (YOLOv11, Docker, AWS),
+            Single-View Geometric Reconstruction, 3D Fiber Reconstruction from Medical Data.
+            Skills: Python, C, C++, PyTorch, TensorFlow, OpenCV, Docker, AWS, Git, GitHub Actions.
+            Publications: CVPR 2024 (Monocular Depth Challenge), CTtrack (Neuroscience Informatics 2022), SOR-3D (2022).
+            Invited speaker at CVPR 2024 Monocular Depth Estimation Challenge workshop.
                 """
         return cv_content
 
