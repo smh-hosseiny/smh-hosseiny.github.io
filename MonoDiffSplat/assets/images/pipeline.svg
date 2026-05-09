@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" font-family="'Source Sans Pro', -apple-system, system-ui, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#37474F"/>
+    </marker>
+    <marker id="arr-loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2E7D32"/>
+    </marker>
+  </defs>
+
+  <style><![CDATA[
+    .band-bs   { fill: #F5FAFE; stroke: #BBDEFB; stroke-width: 1.5; }
+    .band-loop { fill: #F4FAEC; stroke: #C5E1A5; stroke-width: 1.5; }
+    .box-bs    { fill: #E3F2FD; stroke: #1976D2; stroke-width: 2; }
+    .box-loop  { fill: #E8F5E9; stroke: #388E3C; stroke-width: 2; }
+    .box-input { fill: #FFF8E1; stroke: #F9A825; stroke-width: 2; }
+
+    .stage-title { font-size: 14px; font-weight: 600; fill: #102027; text-anchor: middle; }
+    .stage-sub   { font-size: 11px; fill: #455A64; text-anchor: middle; }
+    .band-title  { font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
+    .band-bs-t   { fill: #1565C0; }
+    .band-loop-t { fill: #2E7D32; }
+    .loop-rounds { font-size: 14px; font-weight: 600; fill: #2E7D32; letter-spacing: 0.3px; }
+
+    .arrow      { stroke: #37474F; stroke-width: 1.6; fill: none; marker-end: url(#arr); }
+    .arrow-loop { stroke: #2E7D32; stroke-width: 2.2; fill: none; marker-end: url(#arr-loop); }
+  ]]></style>
+
+  <!-- Title -->
+  <text x="600" y="28" font-size="18" font-weight="700" fill="#102027" text-anchor="middle">MonoDiffSplat — Iterative Reconstruction Pipeline</text>
+
+  <!-- ==== Bootstrap band ==== -->
+  <rect class="band-bs" x="20" y="50" width="1160" height="145" rx="10"/>
+  <text class="band-title band-bs-t" x="40" y="74">BOOTSTRAP</text>
+
+  <!-- Input -->
+  <g>
+    <rect class="box-input" x="40" y="110" width="130" height="65" rx="8"/>
+    <text class="stage-title" x="105" y="135">Sparse RGB</text>
+    <text class="stage-title" x="105" y="153">Input Views</text>
+    <text class="stage-sub"   x="105" y="168">(1 – N images)</text>
+  </g>
+
+  <!-- Bootstrap stages -->
+  <g>
+    <rect class="box-bs" x="200" y="110" width="160" height="65" rx="8"/>
+    <text class="stage-title" x="280" y="138">DA3 Depth</text>
+    <text class="stage-sub"   x="280" y="156">Depth Anything V3</text>
+  </g>
+  <g>
+    <rect class="box-bs" x="385" y="110" width="160" height="65" rx="8"/>
+    <text class="stage-title" x="465" y="138">Plane Extraction</text>
+    <text class="stage-sub"   x="465" y="156">normals + SAM</text>
+  </g>
+  <g>
+    <rect class="box-bs" x="570" y="110" width="160" height="65" rx="8"/>
+    <text class="stage-title" x="650" y="138">Refine Depth</text>
+    <text class="stage-sub"   x="650" y="156">plane-guided</text>
+  </g>
+  <g>
+    <rect class="box-bs" x="755" y="110" width="160" height="65" rx="8"/>
+    <text class="stage-title" x="835" y="138">Train 2DGS</text>
+    <text class="stage-sub"   x="835" y="156">fresh init</text>
+  </g>
+  <g>
+    <rect class="box-bs" x="940" y="110" width="160" height="65" rx="8"/>
+    <text class="stage-title" x="1020" y="138">Render</text>
+    <text class="stage-sub"   x="1020" y="156">trajectory video</text>
+  </g>
+
+  <!-- Bootstrap forward arrows -->
+  <path class="arrow" d="M170,143 L200,143"/>
+  <path class="arrow" d="M360,143 L385,143"/>
+  <path class="arrow" d="M545,143 L570,143"/>
+  <path class="arrow" d="M730,143 L755,143"/>
+  <path class="arrow" d="M915,143 L940,143"/>
+
+  <!-- Entry arrow: connects the bootstrap band to the iterative loop band (between bands, not from Render) -->
+  <path class="arrow" d="M600,197 L600,228"/>
+
+  <!-- ==== Iterative loop band ==== -->
+  <rect class="band-loop" x="20" y="230" width="1160" height="230" rx="10"/>
+  <text class="band-title band-loop-t" x="40" y="254">ITERATIVE REFINEMENT</text>
+  <text class="loop-rounds" x="190" y="254">— repeats ×1–3 rounds</text>
+
+  <!-- Loop boxes -->
+  <g>
+    <rect class="box-loop" x="200" y="375" width="160" height="65" rx="8"/>
+    <text class="stage-title" x="280" y="403">See3D Inpaint</text>
+    <text class="stage-sub"   x="280" y="421">structured trajectories</text>
+  </g>
+  <g>
+    <rect class="box-loop" x="385" y="375" width="160" height="65" rx="8"/>
+    <text class="stage-title" x="465" y="403">Refine Depth</text>
+    <text class="stage-sub"   x="465" y="421">base-cloud anchored</text>
+  </g>
+  <g>
+    <rect class="box-loop" x="570" y="375" width="160" height="65" rx="8"/>
+    <text class="stage-title" x="650" y="403">Snapshot</text>
+    <text class="stage-sub"   x="650" y="421">checkpoint GS</text>
+  </g>
+  <g>
+    <rect class="box-loop" x="755" y="375" width="160" height="65" rx="8"/>
+    <text class="stage-title" x="835" y="403">Retrain 2DGS</text>
+    <text class="stage-sub"   x="835" y="421">resume + delta inject</text>
+  </g>
+  <g>
+    <rect class="box-loop" x="940" y="375" width="160" height="65" rx="8"/>
+    <text class="stage-title" x="1020" y="403">Render</text>
+    <text class="stage-sub"   x="1020" y="421">video + qualitative</text>
+  </g>
+
+  <!-- Loop forward arrows -->
+  <path class="arrow" d="M360,408 L385,408"/>
+  <path class="arrow" d="M545,408 L570,408"/>
+  <path class="arrow" d="M730,408 L755,408"/>
+  <path class="arrow" d="M915,408 L940,408"/>
+
+  <!-- Loop back-arrow: smooth arc + short vertical drop so the arrowhead aligns with the visible line direction -->
+  <path class="arrow-loop" d="M1020,375 C 1020,300 320,300 320,355 L 320,375"/>
+</svg>
