@@ -12,7 +12,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>MonoDiffSplat: Iterative Sparse-View 3D Reconstruction via Plane-Guided Depth Refinement and Video Diffusion</title>
+    <title>MonoDiffSplat: Iterative Single-View 3D Reconstruction via Plane-Guided Depth Refinement and Video Diffusion</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,600" rel="stylesheet" type="text/css">
@@ -24,8 +24,8 @@
 
     <meta property="og:site_name" content="MonoDiffSplat: 3D Scene Reconstruction with 2D Gaussian Splatting" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="MonoDiffSplat: Iterative Sparse-View 3D Reconstruction via Plane-Guided Depth Refinement and Video Diffusion" />
-    <meta property="og:description" content="Repository page for an iterative G4Splat-based pipeline that combines Depth Anything 3, See3D, plane-aware depth refinement, and 2D Gaussian Splatting for sparse-view reconstruction." />
+    <meta property="og:title" content="MonoDiffSplat: Iterative Single-View 3D Reconstruction via Plane-Guided Depth Refinement and Video Diffusion" />
+    <meta property="og:description" content="A single-view-first 3D reconstruction pipeline that also supports sparse multi-view inputs, combining Depth Anything 3, See3D, plane-aware depth refinement, and 2D Gaussian Splatting." />
 
     <script type="module" src="https://unpkg.com/@google/model-viewer@2.0.1/dist/model-viewer.min.js"></script>
 
@@ -42,7 +42,7 @@
         <div class="container" style="max-width: 1200px;">
             <h2 class="text-center" style="font-weight: bold; color: #007bff; margin-bottom: 5px;">MonoDiffSplat</h2>
             <h1 class="text-center mb-3">
-                Iterative Sparse-View 3D Reconstruction via Plane-Guided Depth Refinement and Video Diffusion
+                Iterative Single-View 3D Reconstruction via Plane-Guided Depth Refinement and Video Diffusion
             </h1>
         </div>
 
@@ -69,14 +69,9 @@
             <div class="col-md-12">
                 <h2>Abstract</h2>
                 <p class="text-justify">
-                    Reconstructing usable 3D geometry from very sparse inputs remains difficult, especially when large parts of a scene are unobserved.
-                    Recent pipelines can combine monocular depth, plane priors, Gaussian rendering, and generative completion, but the interaction between those components becomes fragile in single-view and low-view regimes.
+                    MonoDiffSplat is a single-view-first 3D reconstruction pipeline that also supports sparse multi-view inputs. Built on <strong>G4Splat</strong>, <strong>Depth Anything 3</strong>, <strong>See3D</strong>, and <strong>2D Gaussian Splatting</strong>, it bootstraps depth and plane structure from input views, trains an initial 2D Gaussian model, then runs up to three iterative rounds of novel-view rendering, See3D inpainting, base-cloud-anchored depth refinement, point-cloud quality control, and resumed Gaussian training.
                     <br><br>
-                    MonoDiffSplat is a repository pipeline built on top of <strong>G4Splat</strong>, <strong>Depth Anything 3</strong>, <strong>See3D</strong>, and <strong>2D Gaussian Splatting</strong>.
-                    In the current implementation, the system bootstraps depth and plane structure from the input views, trains an initial 2D Gaussian model, then runs up to three iterative rounds of novel-view rendering, See3D inpainting, base-cloud-anchored depth refinement, point-cloud quality control, and resumed Gaussian training.
-                    <br><br>
-                    Within that G4Splat-based framework, MonoDiffSplat extends the implementation with Depth Anything 3 initialization for sparse and single-view settings, stage-to-stage chaining of plane models and base clouds, structured coverage-driven view selection, and resume-stage geometry injection with additional pruning during Gaussian retraining.
-                    This page focuses on the repository pipeline and qualitative outputs.
+                    Key extensions over G4Splat: Depth Anything 3 initialization for single-view and sparse inputs, stage-to-stage chaining of plane models and base clouds, structured coverage-driven view selection, and delta geometry injection with floater cleanup during Gaussian retraining. This repository documents and implements the iterative single-view and low-view extensions; it is not a standalone benchmark claim.
                 </p>
             </div>
         </div>
@@ -197,7 +192,7 @@
 
 
         <p class="mt-3 text-center text-muted">
-            <strong>Figure 1:</strong> Qualitative sparse-view reconstruction examples.
+            <strong>Figure 1:</strong> Single-view reconstruction examples.
         </p>
 
 
@@ -213,15 +208,15 @@
             <div class="col-md-12">
                 <h2>Method Overview</h2>
                 <p class="text-justify">
-                    MonoDiffSplat keeps the core G4Splat ingredients and reorganizes them into three phases with explicit stage chaining and iterative refinement:
+                    The pipeline has three phases:
                 </p>
                 <div class="method-stages">
                     <ul>
                         <li>
-                            <strong>Bootstrap.</strong> Depth Anything 3 produces an initial monocular depth estimate with global alignment. Geometry-branch normals and SAM masks drive plane extraction, an initial plane-aware refinement is run, and a first 2D Gaussian model is trained.
+                            <strong>Bootstrap.</strong> Depth Anything 3 produces monocular depth with global alignment. Geometry-branch normals and SAM masks drive plane extraction, plane-aware depth refinement runs, and the first 2D Gaussian model trains.
                         </li>
                         <li>
-                            <strong>Iterative See3D refinement (1&ndash;3 rounds, default 2).</strong> Each round renders structured novel views, runs See3D inpainting with feathered visible-region merge, anchors the new depths against the previous round's unified point cloud while carrying forward fitted plane models, exports an aligned point cloud, and resumes Gaussian training with delta geometry injection and floater cleanup.
+                            <strong>Iterative See3D refinement (1&ndash;3 rounds, default 1).</strong> Each round renders novel views, runs See3D inpainting with feathered visible-region merge, anchors new depths against the previous round's unified point cloud while carrying forward fitted plane models, exports an aligned point cloud, and resumes Gaussian training with delta injection and floater cleanup.
                         </li>
                         <li>
                             <strong>Finalization.</strong> Optional adaptive-TSDF tetra mesh extraction and held-out view evaluation.
@@ -242,7 +237,7 @@
     <!-- Geometric Consistency Section with Sliders -->
     <div class="container mb-4" style="max-width: 1200px;">
         <h2 class="font-weight-bold">Geometric Consistency</h2>
-        <p>Depth and normal estimates are used as geometric supervision throughout refinement and training. In the current implementation, this is meant to reduce floaters, keep planar regions better aligned, and make sparse-view reconstructions more stable when only a few input images are available.</p>
+        <p>Depth estimates provide geometric supervision throughout refinement and training, reducing floaters, improving planar alignment, and stabilizing reconstructions from limited input views.</p>
         
         <div class="row mt-4">
             <div class="col-12 col-md-6 mb-4">
@@ -254,7 +249,7 @@
                         </div>
                         <div class="bal-before">
                             <div class="bal-before-inset">
-                                <img src="assets/images/depth_tree.png" alt="Normal map">
+                                <img src="assets/images/depth_tree.png" alt="Depth map">
                                 <div class="bal-beforePosition beforeLabel">Depth Map</div>
                             </div>
                         </div>
@@ -264,7 +259,7 @@
                         </div>
                     </div>
                 </div>
-                <p class="text-center text-muted"><small>Scene 1: Outdoor scene with geometric detail </small></p>
+                <p class="text-center text-muted"><small>Outdoor scene</small></p>
             </div>
 
             <div class="col-12 col-md-6 mb-4">
@@ -276,7 +271,7 @@
                         </div>
                         <div class="bal-before">
                             <div class="bal-before-inset">
-                                <img src="assets/images/depth_office.png" alt="Normal map">
+                                <img src="assets/images/depth_office.png" alt="Depth map">
                                 <div class="bal-beforePosition beforeLabel">Depth Map</div>
                             </div>
                         </div>
@@ -286,7 +281,7 @@
                         </div>
                     </div>
                 </div>
-                <p class="text-center text-muted"><small>Scene 2: Room reconstruction </small></p>
+                <p class="text-center text-muted"><small>Indoor scene</small></p>
             </div>
         </div>
     </div>
@@ -352,6 +347,10 @@
              <div class="method-stages">
                  <ul>
                      <li>
+                         <strong>Depth Anything 3 bootstrap.</strong>
+                         Initial monocular depth estimation with global alignment, including single-view runs, replacing MASt3R-based initialization for sparse input regimes.
+                     </li>
+                     <li>
                          <strong>Base-cloud-anchored depth refinement.</strong>
                          See3D depths are aligned to the previous round's QC point cloud via per-segment scale fitting, with hard acceptance gates and an adaptive view-rescue floor. Inherited plane models are matched first, with boundary-anchored linear mono fits as a weak-plane fallback.
                      </li>
@@ -378,13 +377,13 @@
     <div class="container" style="max-width: 1200px;">
         <h2>Acknowledgments</h2>
         <p class="text-justify">
-            This repository is built on <a href="https://github.com/DaLi-Jack/G4Splat/tree/main">G4Splat</a> and also depends on
-            <a href="https://github.com/ByteDance-Seed/Depth-Anything-3/tree/main">Depth Anything V3</a>,
-            <a href="https://github.com/baaivision/See3D">See3D</a>, and the broader 2D Gaussian Splatting toolchain.
-            Credit for the base G4Splat formulation remains with the original authors; MonoDiffSplat primarily documents and implements the iterative sparse-view extensions described in this repository.
-        </p>
-        <p class="text-justify">
-            We thank the upstream authors for releasing code, models, and documentation that made this implementation possible.
+            Built on <a href="https://github.com/DaLi-Jack/G4Splat/tree/main">G4Splat</a> (Ni et al., 2025).
+            Additional dependencies: <a href="https://github.com/ByteDance-Seed/Depth-Anything-3/tree/main">Depth Anything 3</a>,
+            <a href="https://github.com/baaivision/See3D">See3D</a>,
+            <a href="https://github.com/hbb1/2d-gaussian-splatting">2DGS</a>,
+            <a href="https://github.com/facebookresearch/segment-anything">Segment Anything</a>,
+            <a href="https://github.com/autonomousvision/gaussian-opacity-fields">GOF</a>.
+            Credit for the base G4Splat formulation remains with the original authors; MonoDiffSplat documents and implements the iterative single-view extensions described in this repository.
         </p>
     </div>
 
